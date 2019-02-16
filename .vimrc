@@ -217,7 +217,9 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 
-abbr ifname def main():<CR>    return 0<CR><CR>if __name__ == "__main__":<CR>    main()
+let g:syntastic_python_checkers = ['pycodestyle']
+
+abbr ifname def main():<CR>    return 0<CR><CR><CR>if __name__ == "__main__":<CR>    main()
 abbr ifnamec int main(int argc, char *argv[]) {<CR>    return 0;<CR>}
 " Change cursor shape between insert and normal mode in iTerm2.app
 if $TERM_PROGRAM =~ "iTerm"
