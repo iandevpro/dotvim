@@ -3,7 +3,8 @@ set visualbell
 set noerrorbells
 syntax on
 " set t_Co=256
-set background=dark
+" set background=dark
+set background=light
 " let g:solarized_termcolors = 256
 colorscheme solarized
 " colorscheme zenburn
@@ -30,6 +31,20 @@ set shiftwidth=4
 set nocompatible
 set number
 
+nmap <F7> :make<CR>
+nmap <F8> :make run<CR>
+" nmap <F8> :TagbarToggle<CR>
+":map <F9> :cn<CR>
+:map <F4> <Plug>ShowFunc
+:map! <F4> <Plug>ShowFunc
+:map <F11> :TlistToggle<CR>
+
+" CRefVim
+:map <S-F1> <Leader>cr
+
+
+filetype plugin on
+
 autocmd BufRead,BufNewFile *.pyx set filetype=python
 autocmd FileType make setlocal noexpandtab
 autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
@@ -40,7 +55,10 @@ autocmd FileType c nnoremap <buffer> <Leader>r :make run<cr>
 set softtabstop=4 " makes the spaces feel like real tabs
 
 " http://stackoverflow.com/a/2159997/7572715
-set list listchars=tab:❘-,trail:·,extends:»,precedes:«,nbsp:×
+" set list listchars=tab:❘-,trail:·,extends:»,precedes:«,nbsp:×
+"set list listchars=tab:❘-,trail:·,extends:»,precedes:«,nbsp:×
+autocmd FileType go set tabstop=4|set shiftwidth=4|set noexpandtab|set textwidth=79|set colorcolumn=80|set wrapmargin=79|set list listchars=tab:\ \ ,trail:·,extends:»,precedes:«,nbsp:× | nmap <F7> :!go build %<CR>
+
 " http://stackoverflow.com/questions/3839454/how-to-use-pylint-in-vim
 "" autocmd FileType python compiler pylint
 " set makeprg=pylint\ --reports=n\ --output-format=parseable\ %:p
@@ -66,16 +84,6 @@ let g:NERDTreeDirArrows=0
 " let g:showfuncctagsbin="/usr/local/bin/exctags"
 " let g:showfuncctagsbin="/Users/iadichko/local/bin/ctags"
 let g:showfuncctagsbin="/usr/bin/ctags"
-
-:map <F7> :make<CR>
-nmap <F8> :TagbarToggle<CR>
-":map <F9> :cn<CR>
-:map <F4> <Plug>ShowFunc
-:map! <F4> <Plug>ShowFunc
-:map <F11> :TlistToggle<CR>
-
-" CRefVim
-:map <S-F1> <Leader>cr
 
 let g:miniBufExplModSelTarget = 1
 let g:miniBufExplUseSingleClick = 1
@@ -218,6 +226,8 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_python_checkers = ['pycodestyle']
+let g:syntastic_java_javac_classpath = ".:/usr/local/lift/lib/algs4.jar"
+let g:syntastic_go_checkers = ['gofmt']
 
 abbr ifname def main():<CR>    return 0<CR><CR><CR>if __name__ == "__main__":<CR>    main()
 abbr ifnamec int main(int argc, char *argv[]) {<CR>    return 0;<CR>}
@@ -226,8 +236,20 @@ if $TERM_PROGRAM =~ "iTerm"
     let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
     let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
 endif
+
 let g:distractfree_width = '55%'
 " autocmd FileType * :DistractFreeToggle
 
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces
 map ,s :%s/\s\+$//e<CR>
+
+" For Coursera Algorithms Java sources headers
+" convert lines
+" public         PointSET()                               // construct an empty set of points
+" to
+"   // construct an empty set of points
+"   public         PointSET(){
+"    }
+map ,a f/dT)d$A {<CR><Tab>}<Esc>=%:pu!<CR>==
+" let @a='f/dT)d$A{^M❘}^[=%:pu!^M=='
+nmap <silent> ,n <Plug>DistractFreeToggle<CR>:set number<CR>
